@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Builder;
 using TodoApi;
 using TodoApi.Models;
@@ -7,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 
 // Conectando ao banco de dados
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Env.Load(".env");
+
+var connectionString = Environment.GetEnvironmentVariable("TODO_CONNECTION_STRING");
 builder.Services.AddSingleton(new TodoRepository(connectionString));
 
 builder.Services.AddOpenApiDocument(config =>
